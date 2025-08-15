@@ -8,9 +8,9 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MembersController (AppDbContext context) : ControllerBase
+    public class MembersController(AppDbContext context) : ControllerBase
     {
-          [HttpGet]
+        [HttpGet]
         public async Task<ActionResult<IReadOnlyList<AppUser>>> GetMembers()
         {
             var members = await context.Users.ToListAsync();
