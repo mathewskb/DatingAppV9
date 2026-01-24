@@ -11,7 +11,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes,withViewTransitions()),
+    provideRouter(routes, withViewTransitions()),
     provideHttpClient(withInterceptors([errorInterceptor, jwtInterceptor])),
     provideAppInitializer(async () => {
       const initService = inject(InitService);
@@ -27,7 +27,7 @@ export const appConfig: ApplicationConfig = {
             }
             resolve();
           }
-        },500)
+        }, 500)
       })
 
     })
