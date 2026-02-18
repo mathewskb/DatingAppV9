@@ -1,4 +1,3 @@
-using System;
 using API.Entities;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +9,13 @@ public class MemberRepository(AppDbContext context) : IMemeberRepository
     public async Task<Member?> GetMemberByIdAsync(string id)
     {
         return await context.Members.FindAsync(id);
+    }
+
+    public Task<Member?> GetMemberForUpdateAsync(string id)
+    {
+        return context.Members
+            .Include(x => x.User)
+            .SingleOrDefaultAsync(m => m.Id == id);
     }
 
     public async Task<IReadOnlyList<Member>> GetMembersAsync()

@@ -1,4 +1,3 @@
-using System;
 using API.Entities;
 
 namespace API.Interfaces;
@@ -10,5 +9,6 @@ public interface IMemeberRepository
     Task<IReadOnlyList<Member>> GetMembersAsync();
     Task<Member?> GetMemberByIdAsync(string id);
     Task<IReadOnlyList<Photo>> GetPhotosForMemberAsync(string memberId);
+    Task<Member?> GetMemberForUpdateAsync(string id);
     
 }
