@@ -39,10 +39,10 @@ export class Nav implements OnInit {
   }
 
   login() {
-    console.log(this.creds);
+    // console.log(this.creds);
     this.accountService.login(this.creds).subscribe({
       next: (result) => {
-        console.log(result);
+        // console.log(result);
         this.creds = {}; //clear the object so that logout (click) will display blank email and password in login form
         this.router.navigateByUrl('/members');
         this.toast.info('Logged in successfully');

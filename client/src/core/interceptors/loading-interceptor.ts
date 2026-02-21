@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { BusyService } from '../services/busy-service';
 import { delay, finalize, of, tap } from 'rxjs';
 
-const cache = new Map < string, HttpEvent<unknown>>();
+const cache = new Map<string, HttpEvent<unknown>>();
 
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const busyService = inject(BusyService);
