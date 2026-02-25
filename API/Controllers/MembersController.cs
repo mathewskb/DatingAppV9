@@ -138,7 +138,7 @@ namespace API.Controllers
 
             member.Photos.Remove(photo);
 
-            if (await memeberRepository.SaveAllAsync()) return NoContent();
+            if (await memeberRepository.SaveAllAsync()) return Ok();
 
             return BadRequest("Failed to delete photo");
         }
