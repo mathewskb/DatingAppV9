@@ -66,7 +66,7 @@ namespace API.Controllers
         {
             var memberId = User.GetMemberId();
 
-            var member = await memeberRepository.GetMemberByIdAsync(memberId);
+            var member = await memeberRepository.GetMemberForUpdateAsync(memberId);
 
             if (member == null) return BadRequest("Cannot update member with given id");
 

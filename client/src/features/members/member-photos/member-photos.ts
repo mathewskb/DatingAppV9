@@ -17,7 +17,7 @@ import { DeleteButton } from "../../../shared/delete-button/delete-button";
 export class MemberPhotos implements OnInit {
   protected memberService = inject(MemberService);
   protected accountService = inject(AccountService);
-  
+
   private route = inject(ActivatedRoute);
 
   protected photos = signal<Photo[]>([]);
@@ -29,7 +29,7 @@ export class MemberPhotos implements OnInit {
     if (memberId) {
       this.memberService.getMemberPhotos(memberId).subscribe({
         next: (photos) => this.photos.set(photos),
-        error: (err) => console.error('Error fetching member photos:', err) 
+        error: (err) => console.error('Error fetching member photos:', err)
       });
     }
   }
@@ -41,6 +41,11 @@ export class MemberPhotos implements OnInit {
         this.memberService.editMode.set(false);
         this.loading.set(false);
         this.photos.update((photos) => [...photos, photo]);
+
+        if(!this.memberService.member()?.imageUrl) {
+          this.setMainLocalPhoto(photo);
+        }
+        
       },
       error: (err) => {
         console.error('Error uploading photo:', err);
@@ -52,20 +57,24 @@ export class MemberPhotos implements OnInit {
   setMainPhoto(photo: Photo) {
     this.memberService.setMainPhoto(photo).subscribe({
       next: () => {
-        const currentUser = this.accountService.currentUser();
-        
-        if(currentUser) 
-          currentUser.imageUrl = photo.url;
-
-        this.accountService.setCurrentUser(currentUser as User);
-
-        this.memberService.member.update((member) =>({  
-          ...member,imageUrl: photo.url
-        } as Member));
-        
-    },
+        this.setMainLocalPhoto(photo);
+      },
       error: (err) => console.error('Error setting main photo:', err)
     });
+  }
+
+
+  private setMainLocalPhoto(photo: Photo) {
+    const currentUser = this.accountService.currentUser();
+
+    if (currentUser)
+      currentUser.imageUrl = photo.url;
+
+    this.accountService.setCurrentUser(currentUser as User);
+
+    this.memberService.member.update((member) => ({
+      ...member, imageUrl: photo.url
+    } as Member));
   }
 
   deletePhoto(photoId: number) {
